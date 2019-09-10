@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ViewPhotos</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="end_of_the_list">End of Feed</string>
+    <string name="activity_feed">Photo Item</string>
+    <string name="photo">Photo</string>
+    <string name="photo_details">Photo Details</string>
+    <string name="action_search">Search</string>
+    <string name="welcome">WEL-COME</string>
+    <string name="error_message">Something went wrong...Please try later!</string>
+    <string name="no_data">No data found</string>
+</resources>

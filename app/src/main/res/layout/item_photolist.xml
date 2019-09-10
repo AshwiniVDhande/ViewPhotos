@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/card_photo"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:elevation="@dimen/value_10"
+    style="@style/dimen_mw">
+
+    <RelativeLayout
+        style="@style/dimen_mw"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_photo_even"
+            style="@style/style_photo_image"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_post_image_placeholder"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_phototitle_even"
+            android:layout_toRightOf="@+id/iv_photo_even"
+            android:layout_toLeftOf="@+id/iv_photo_odd"
+            style="@style/style_tv_photo_title" />
+
+        <ImageView
+            android:id="@+id/iv_photo_odd"
+            style="@style/style_photo_image"
+            android:src="@drawable/ic_post_image_placeholder"
+            android:layout_alignParentRight="true"
+            android:visibility="visible"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
