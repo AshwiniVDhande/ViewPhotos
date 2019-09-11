@@ -8,8 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.example.viewphotos.R;
 
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ import wrappers.PhotosWrapper;
 
 public class MainRepository implements IHttpEventTracker<List<Photos>> {
     MutableLiveData<ArrayList<Photos>> data;
-    RequestQueue requestQueue;
     private static MainRepository mainRepository;
     private PhotosWrapper mPhotosWrapper;
     private Context mContext;
@@ -34,8 +31,6 @@ public class MainRepository implements IHttpEventTracker<List<Photos>> {
      */
     private MainRepository(Application application) {
         mContext = application;
-        if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(mContext);
         if (mPhotosWrapper == null)
             mPhotosWrapper = new PhotosWrapper(this);
     }
