@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ import adapter.PhotoListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import models.Photos;
+import networks.NetworkUtil;
 import utils.Constant;
 import viewmodel.MainActivityViewModel;
 import views.MainActivity;
@@ -53,9 +55,11 @@ public class PhotoFragment extends Fragment implements PhotoListAdapter.IActivit
     Toolbar toolbar;
     @BindView(R.id.progressbar)
     ProgressBar progressbar;
+    @BindView(R.id.tv_no_network)
+    AppCompatTextView tvNoNetwork;
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
-    private static String LIST_STATE = "list_state" ;
+    private static String LIST_STATE = "list_state";
     private PhotoListAdapter mAdapter;
     private RecyclerViewScrollListener m_scrollListener;
     private int m_currentFeedPage = 0;
@@ -87,10 +91,10 @@ public class PhotoFragment extends Fragment implements PhotoListAdapter.IActivit
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState == null){
-            mShowPhotoList();
+        if (savedInstanceState == null) {
             setViewVisibility(true);
-        }else {
+            mShowPhotoList();
+        } else {
             mPhotoList = new ArrayList<>();
             mPhotoList = savedInstanceState.getParcelableArrayList(LIST_STATE);
             displayData();
@@ -108,6 +112,9 @@ public class PhotoFragment extends Fragment implements PhotoListAdapter.IActivit
         super.onResume();
     }
 
+    /**
+     * Initialized all the views
+     */
     private void init() {
         setHasOptionsMenu(true);
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
@@ -159,26 +166,40 @@ public class PhotoFragment extends Fragment implements PhotoListAdapter.IActivit
         }
     }
 
+    /**
+     * set the views visibility
+     *
+     * @param isVisible of boolean
+     */
     private void setViewVisibility(boolean isVisible) {
         progressbar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         rvPhoto.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+        tvNoNetwork.setVisibility(View.GONE);
     }
 
+    /**
+     * Show the list of photos
+     */
     private void mShowPhotoList() {
-        viewModel.getPhotoList(m_currentFeedPage).observe(this, photoDetails -> {
-            if (photoDetails != null) {
-                setViewVisibility(false);
-                mAdapter.setPhotoList(photoDetails);
-                if (m_currentFeedPage == 0) {
-                    rvPhoto.setAdapter(mAdapter);
+        if (NetworkUtil.isNetworkAvailable()) {
+            viewModel.getPhotoList(m_currentFeedPage).observe(this, photoDetails -> {
+                if (photoDetails != null) {
+                    setViewVisibility(false);
+                    mAdapter.setPhotoList(photoDetails);
+                    if (m_currentFeedPage == 0) {
+                        rvPhoto.setAdapter(mAdapter);
+                    } else {
+                        rvPhoto.post(() -> mAdapter.addNewItems());
+                    }
+                    m_currentFeedPage += photoDetails.size();
                 } else {
-                    rvPhoto.post(() -> mAdapter.addNewItems());
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.no_data), Toast.LENGTH_LONG).show();
                 }
-                m_currentFeedPage += photoDetails.size();
-            } else {
-                Toast.makeText(getActivity(), getActivity().getString(R.string.no_data), Toast.LENGTH_LONG).show();
-            }
-        });
+            });
+        } else {
+            progressbar.setVisibility(View.GONE);
+            tvNoNetwork.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -235,15 +256,15 @@ public class PhotoFragment extends Fragment implements PhotoListAdapter.IActivit
     }
 
     //Set Adapter to recyclerview and display photoList
-    private void displayData(){
+    private void displayData() {
         mAdapter.setPhotoList(mPhotoList);
         rvPhoto.setAdapter(mAdapter);
         restoreLayoutManagerPosition();
     }
 
     //Restore the recyclerView Position after rotation
-    private void restoreLayoutManagerPosition(){
-        if(mSavedRecyclerLayoutState != null){
+    private void restoreLayoutManagerPosition() {
+        if (mSavedRecyclerLayoutState != null) {
             rvPhoto.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
         }
     }

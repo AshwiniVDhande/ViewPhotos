@@ -15,8 +15,7 @@ import retrofit2.Call;
 /**
  * Handles HTTP Operation callbacks
  */
-public interface IHttpOperationCallback
-{
+public interface IHttpOperationCallback {
     /**
      * Callback function
      * Called if response is successful

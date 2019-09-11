@@ -20,6 +20,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     /**
      * Initialized repository
+     *
      * @param application
      */
     public MainActivityViewModel(@NonNull Application application) {
@@ -29,6 +30,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     /**
      * Get the photoList
+     *
      * @param start
      * @return
      */

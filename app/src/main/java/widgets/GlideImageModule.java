@@ -41,7 +41,7 @@ public class GlideImageModule {
             final RequestOptions requestOptions = new RequestOptions();
             requestOptions.centerCrop();
             requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-            requestOptions.placeholder(R.drawable.loading_image);
+            requestOptions.placeholder(R.drawable.ic_post_image_placeholder);
             requestOptions.error(R.drawable.no_image);
 
             // Load Image

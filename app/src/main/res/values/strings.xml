@@ -10,6 +10,10 @@
     <string name="photo_details">Photo Details</string>
     <string name="action_search">Search</string>
     <string name="welcome">WEL-COME</string>
-    <string name="error_message">Something went wrong...Please try later!</string>
     <string name="no_data">No data found</string>
+
+
+    //error messages
+    <string name="no_network">There seems to be a problem with your network connection.</string>
+    <string name="error_message">Something went wrong...Please try later!</string>
 </resources>

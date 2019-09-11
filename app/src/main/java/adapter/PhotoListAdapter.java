@@ -17,7 +17,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.viewphotos.R;
 
 import java.lang.ref.WeakReference;
@@ -28,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import models.Photos;
+import widgets.GlideImageModule;
 
 /**
  * Set the PhototListAdapter
@@ -142,11 +142,11 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
          */
         void setItem(@NonNull Photos photoItem) {
             if (mPosition % 2 == 0) {
-                Glide.with(m_context).load(photoItem.getThumbnailUrl()).into(ivPhotoEven);
+                GlideImageModule.loadImage(m_context, ivPhotoEven, photoItem.getThumbnailUrl(), null);
                 ivPhotoOdd.setVisibility(View.GONE);
                 ivPhotoEven.setVisibility(View.VISIBLE);
             } else {
-                Glide.with(m_context).load(photoItem.getThumbnailUrl()).into(ivPhotoOdd);
+                GlideImageModule.loadImage(m_context, ivPhotoOdd, photoItem.getThumbnailUrl(), null);
                 ivPhotoOdd.setVisibility(View.VISIBLE);
                 ivPhotoEven.setVisibility(View.GONE);
             }
@@ -169,7 +169,7 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
         notifyDataSetChanged();
     }
 
-    public ArrayList<Photos> getPhotoList(){
+    public ArrayList<Photos> getPhotoList() {
         return photoList;
     }
 
